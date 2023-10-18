@@ -1,0 +1,16 @@
+<template>
+   <div class="content">
+      <div class="tile">
+         <div class="lower-third">
+            <div class="logo" style="height: 145px;">
+               <template if:true={hasImage}>
+               <img src={imageUrl} />
+               </template>
+            </div>
+            <h2 class=" slds-text-heading_medium"><a href={url}>{item.Name}</a></h2>
+            
+            
+         </div>   
+      </div>
+   </div>
+</template>

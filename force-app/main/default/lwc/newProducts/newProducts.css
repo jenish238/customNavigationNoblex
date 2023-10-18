@@ -1,0 +1,44 @@
+.tile {
+    border: 1px solid black !important;
+    margin: 5px;
+    height: 281px;
+    background-color: #ffffff;
+ }
+ 
+ .slds-large-size_3-of-12 {
+    width: 22%;
+ }
+
+ .brandsBox{
+   margin-right: auto;  
+   margin-top: 20px; 
+   background: rgba(0,0,0,0.05)
+ }
+
+ .productsBox{
+   background: rgba(0,0,0,0.05)
+ }
+ 
+
+
+ @media only screen and (max-width: 414px) {
+    .tile {
+       width: 95% !important;
+       
+    }  
+    
+    .brandTile{
+      width: 95% !important;
+    }
+ }
+ 
+ @media only screen and (max-width: 800px) {
+    .tile {
+       width: 30%;
+       height: 315px;
+    }
+
+    .brandTile{
+      width: 30%;     
+    }
+ }

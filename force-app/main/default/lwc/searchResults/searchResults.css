@@ -1,0 +1,30 @@
+.tile {
+   border: 1px solid black !important;
+   margin: 5px;
+   height: 281px;
+   /*width: 20% !important;*/
+}
+
+.slds-large-size_3-of-12 {
+   width: 22%;
+}
+
+@media only screen and (max-width: 414px) {
+   .tile {
+      width: 95% !important;
+      
+   }
+
+   /*.slds-size_12-of-12 {
+      width: 95% !important;
+   }*/
+
+   
+}
+
+@media only screen and (max-width: 800px) {
+   .tile {
+      width: 30%;
+      height: 315px;
+   }
+}

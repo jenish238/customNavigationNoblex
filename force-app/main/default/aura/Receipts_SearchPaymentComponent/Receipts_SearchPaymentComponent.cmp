@@ -1,0 +1,319 @@
+<aura:component access="GLOBAL" controller="Receipts_SearchPaymentController" implements="force:appHostable">
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- Set Attribute -->
+  <aura:attribute name="emailPayment" type="String" />
+  <aura:attribute name="generatePdfUrl" type="String" default="#" />
+  <aura:attribute name="fromDate" type="Date" />
+  <aura:attribute name="untilDate" type="Date" />
+  <aura:attribute name="paymentTnx" type="AAkPay__Payment_Txn__c" default="{'sobjectType': 'AAkPay__Payment_Txn__c'}" />
+  <aura:attribute name="contact" type="Contact" default="{'sobjectType': 'Contact'}" />
+  <aura:attribute name="paymentTXNRec" type="AAkPay__Payment_Txn__c[]" />
+  <aura:attribute name="paymentRecordsPerPage" type="AAkPay__Payment_Txn__c[]" />
+  <aura:attribute name="allPaymentForms" type="AAkPay__Payment_Type__c[]" />
+  <aura:attribute name="pageList" type="List" />
+  <aura:attribute name="currentPage" type="Integer" />
+  <aura:attribute name="removedPaymentIdsMap" type="Object" />
+  <aura:attribute name="receiptPrintedOption" type="String" default="All" />
+  <aura:attribute name="message" description="Error Message" type="String" />
+  <aura:attribute name="isError" description="Check if there are any error occur." type="Boolean" default="false" />
+  <aura:attribute name="isNoResultFound" type="Boolean" description="Check if there is no result search payment found"
+    default="true" />
+  <aura:attribute name="isLoading" type="Boolean" description="display loading" default="false" />
+  <aura:attribute name="isRecurringPayment" type="Boolean" default="false" />
+  <aura:attribute name="pdfMenuDropdownClass" type="String" default="" />
+  <aura:attribute name="printChucks" type="List" />
+  <aura:attribute name="settings" type="Object" />
+
+  <!-- Set Custom Label Attribute -->
+  <aura:attribute name="cLabelGeneratePDF" type="String" default="" />
+  <aura:attribute name="cLabelEmail" type="String" />
+  <aura:attribute name="cLabelAccount" type="String" />
+  <aura:attribute name="cLabelContact" type="String" />
+  <aura:attribute name="cLabelBankDepositDateRange" type="String" />
+  <aura:attribute name="cLabelFromDate" type="String" />
+  <aura:attribute name="cLabelToDate" type="String" />
+  <aura:attribute name="cLabelViewResult" type="String" />
+  <aura:attribute name="cLabelSearchPaymentTXN" type="String" />
+  <aura:attribute name="cLabelPaymentTXNFound" type="String" />
+  <aura:attribute name="cLabelRemoveRecord" type="String" />
+  <aura:attribute name="cLabelPrintTooMuchWarning" type="String" />
+  <!-- End Attribute -->
+
+  <!-- Search Payment Form -->
+  <div class="slds-grid slds-gutters">
+    <div class="slds-col slds-size_12-of-12">
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__body">
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Search Payment TXN">{!v.cLabelSearchPaymentTXN}</h1>
+          </div>
+        </div>
+      </div>
+      <br />
+      <aura:if isTrue="{!v.isError}">
+        <div class="warning-message">
+          <span>{!v.message}</span>
+        </div>
+      </aura:if>
+      <br />
+
+      <aura:if isTrue="{!v.isLoading}">
+        <div class="loading">
+          <lightning:spinner alternativeText="Loading" size="medium" />
+        </div>
+      </aura:if>
+      <form class="slds-form--stacked">
+        <div class="slds-grid slds-gutters">
+          
+          <div class="slds-col slds-size_1-of-2"> 
+            <div class="slds-form-element">
+              <label class="slds-form-element__label">{!v.cLabelAccount}</label>
+              <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                  <force:inputField value="{!v.paymentTnx.AAkPay__Account__c}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="slds-form-element">
+              <label class="slds-form-element__label">{!v.cLabelContact}</label>
+              <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                  <force:inputField value="{!v.paymentTnx.AAkPay__Contact__c}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="slds-form-element">
+              <label class="slds-form-element__label">Campaign</label>
+              <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                  <force:inputField value="{!v.paymentTnx.AAkPay__Campaign__c}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="slds-form-element">
+              <label class="slds-form-element__label">Contact Owner</label>
+              <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                  <force:inputField value="{!v.contact.OwnerId}" />
+                </div>
+              </div>
+            </div>
+
+            <div class="slds-form-element">
+              <lightning:select label="Receipt Printed" value="{!v.receiptPrintedOption}">
+                <option value="All">All</option>
+                <option value="NotPrinted">Not Printed</option>
+                <option value="Printed">Printed</option>
+              </lightning:select>
+            </div>
+
+            <div class="slds-form-element slds-m-top_small">
+              <lightning:input aura:id="isRecurringPaymentCheckbox" type="checkbox" label="Recurring Payment" />
+            </div>
+          </div>
+
+          <div class="slds-col slds-size_6-of-12 bank-deposit-style">
+            <fieldset class="slds-form-element">
+              <legend class="slds-form-element__label slds-form-element__legend">{!v.cLabelBankDepositDateRange}</legend>
+              <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                  <div class="slds-form-element slds-size_1-of-1">
+                    <lightning:input type="date" label="{!v.cLabelFromDate}" name="fromdate" value="{!v.fromDate}"
+                      required="true" />
+                  </div>
+                </div>
+                <div class="slds-form-element__row">
+                  <div class="slds-form-element slds-size_1-of-1">
+                    <lightning:input type="date" label="{!v.cLabelToDate}" name="todate" value="{!v.untilDate}"
+                      required="true" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="slds-form-element slds-size_1-of-1">
+              <div class="slds-form-element">
+                  <label class="slds-form-element__label">Receipt Email</label>
+                  <ui:inputEmail value="{!v.emailPayment}" aura:id="email" class="slds-input" />
+			  </div>
+                
+              <div class="slds-form-element">
+                <lightning:select name="paymentFormId" label="Payment Form" aura:id="paymentFormId" value="{!v.paymentTnx.AAkPay__Payment_Type__c}">
+                  <aura:iteration items="{!v.allPaymentForms}" var="option">
+                    <option text="{!option.Name}" value="{!option.Id}" />
+                  </aura:iteration>
+                </lightning:select>
+              </div>
+
+              <div class="slds-form-element">
+                <label class="slds-form-element__label">Amount greater than</label>
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container">
+                    <force:inputField class="slds-input" value="{!v.paymentTnx.AAkPay__Card_Charged_Amount__c}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <lightning:button aura:id="submit" label="View" class="slds-m-top_medium" onclick="{!c.doSearchPayments}" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- End Search Payment Form -->
+  <br />
+  <hr />
+
+  <!-- Show Payment Search Result -->
+  <div class="slds-grid slds-gutters">
+    <div class="slds-col slds-size_12-of-12">
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__body">
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Payment TXN Found">{!v.cLabelPaymentTXNFound}&nbsp;{!v.paymentTXNRec.length}
+              record(s)</h1>
+          </div>
+        </div>
+      </div>
+      <form class="slds-form--stacked">
+        <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+          <thead>
+            <tr class="slds-text-title_caps">
+              <th scope="col">
+                <div class="slds-truncate" title="Payment TXN No">Payment TXN No</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Contact">Contact</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Account name">Account name</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Email">Email</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Campaign">Campaign</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Contact Owner">Contact Owner</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Receipt Printed">Printed</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Payment Status">Payment Status</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Bank Deposit Date">Bank Deposit Date</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Donation Amount">Banked Amount</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Action">Action</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:if isTrue="{!v.isNoResultFound}">
+              <tr>
+                <td colspan="12" class="no-result-found">There is no result found</td>
+              </tr>
+              <aura:set attribute="else">
+                <aura:iteration items="{!v.paymentRecordsPerPage}" var="item">
+                  <tr>
+                    <td class="slds-truncate">
+                      <a href="{!'/'+item.Id}">{!item.Name}</a>
+                    </td>
+                    <td class="slds-truncate">
+                      <a href="{!'/'+item.AAkPay__Contact__c}">{!item.AAkPay__Contact__r.Name}</a>
+                    </td>
+                    <td class="slds-truncate">
+                      <a href="{!'/'+item.AAkPay__Account__r.Id}">{!item.AAkPay__Account__r.Name}</a>
+                    </td>
+                    <td class="slds-truncate">
+                      <a href="{!'mailto:' + item.AAkPay__Email__c}">{!item.AAkPay__Email__c}</a>
+                    </td>
+                    <td class="slds-truncate">
+                      <a href="{!'/'+item.AAkPay__Campaign__c}">{!item.AAkPay__Campaign__r.Name}</a>
+                    </td>
+                    <td class="slds-truncate">
+                      <a href="{!'/'+item.AAkPay__Contact__r.OwnerId}">{!item.AAkPay__Contact__r.Owner.Name}</a>
+                    </td>
+                    <td>
+                      <span class="{!item.Receipt_Printed__c?'':'slds-hide'}">
+                        <lightning:icon iconName="utility:check" alternativeText="checked" />
+                      </span>
+                    </td>
+
+                    <td class="slds-truncate">
+                      {!item.AAkPay__Status__c}
+                    </td>
+                    <td class="slds-truncate">
+                      <ui:outputDate aura:id="depositDate" value="{!item.AAkPay__Bank_Deposit_Date__c}" />
+                    </td>
+                    <td class="slds-truncate">
+                      <ui:outputCurrency value="{!item.AAkPay__Banked_Amount__c}" />
+                    </td>
+                    <td class="slds-truncate">
+                      <!--  <lightning:button aura:id="{!'test'+ item.Id}" label="Remove " class="slds-m-top_medium" onclick="{!c.removePayment}"/> -->
+                      <button type="button" class="slds-button slds-button_neutral" onclick="{!c.removePayment}"
+                        data-payment-id="{!item.Id}">{!v.cLabelRemoveRecord}</button>
+                    </td>
+                  </tr>
+                </aura:iteration>
+              </aura:set>
+            </aura:if>
+          </tbody>
+        </table>
+
+        <!-- <lightning:button aura:id="submit" label="Generate PDF" class="slds-m-top_medium" /> -->
+        <br />
+
+        <!-- <div class="{!v.paymentTXNRec.length>500?'':'slds-hide'}">
+          <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+            <span class="slds-assistive-text">error</span>
+            <h2>{!v.cLabelPrintTooMuchWarning}</h2>
+          </div>
+          <br />
+        </div> -->
+
+        <div class="slds-m-bottom_medium">
+          <div class="{!'slds-dropdown-trigger slds-dropdown-trigger_click ' + v.pdfMenuDropdownClass }">
+            <button onclick="{!c.togglePdfMenuDropdown}" type="button" class="slds-button slds-button_brand">
+              {!v.cLabelGeneratePDF}
+            </button>
+            <div class="slds-dropdown slds-dropdown_left slds-dropdown_bottom">
+              <ul class="slds-dropdown__list" role="menu">
+                <aura:iteration items="{!v.printChucks}" var="printChuck">
+                  <li class="slds-dropdown__item" onclick="{!c.doUpdateReceiptPrinted}" data-payments="{!printChuck.paymentsCsv}" role="presentation">
+                    <a href="{!printChuck.hrefString}" target="_blank" role="menuitem" tabindex="0">
+                      <span class="slds-truncate">{!v.cLabelGeneratePDF} {!printChuck.rangeLabel}</span>
+                    </a>
+                  </li>
+                </aura:iteration>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slds-button-group" role="group">
+            <button type="button" onclick="{!c.goToPage}" data-page="{!v.currentPage-1}" class="slds-button slds-button_neutral">previous</button>
+            <button type="button" onclick="{!c.goToPage}" data-page="{!v.currentPage+1}" class="slds-button slds-button_neutral">next</button>
+          </div>
+          <div class="slds-button-group" role="group">
+            <aura:iteration items="{!v.pageList}" var="page">
+              <button type="button" onclick="{!c.goToPage}" data-page="{!page.number}" class="{!'slds-button ' + ((page.number==v.currentPage)?'slds-button_brand':'slds-button_neutral')}">{!page.label}</button>
+            </aura:iteration>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- End Payment Search Result -->
+</aura:component>

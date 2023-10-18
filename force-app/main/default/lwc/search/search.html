@@ -1,0 +1,61 @@
+<template>
+        <div class="slds-var-m-around_medium">
+            <div>
+                <lightning-input class="search" label="Search" placeholder="Search endorsed products" value={filterString} onchange={handlefilterChange}></lightning-input>
+            </div>
+            <div class="divider"></div>
+            <div>
+                <lightning-combobox class="filter"
+                    name="Brand"
+                    label="Brand"
+                    placeholder="--"
+                    options={brandOptions}
+                    onchange={handleBrandFilterChange}></lightning-combobox>
+                <lightning-combobox class="filter middle"
+                    name="Product Type"
+                    label="Product Type"
+                    placeholder="--"
+                    options={productTypeOptions}
+                    onchange={handleProductTypeChange}></lightning-combobox>
+                
+            </div>
+            <div class="divider"></div>
+            <div>
+                <lightning-combobox class="filter"
+                    name="Category"
+                    label="Category"
+                    placeholder="--"
+                    options={CategoryOptions}
+                    onchange={handleCategoryChange}></lightning-combobox>
+                    <lightning-combobox class="filter middle"
+                    name="Sub Category"
+                    label="Sub Category"
+                    
+                    placeholder="--"
+                    options={subCategoryOptions}
+                    onchange={handleSubCategoryChange}></lightning-combobox><!--disabled="False"-->
+
+            </div>
+        </div>
+
+        <div class="slds-var-m-around_medium slds-grid">
+
+            <div class="slds-box filter distribution">
+                <h2 class="header">Distribution Options</h2>
+                <lightning-input type="checkbox" label="Retail" name="retail" onchange={handleRetailSelect}></lightning-input>
+                <lightning-input type="checkbox" label="Food Service" name="foodService" onchange={handleFoodServiceSelect}></lightning-input>
+            </div>
+                      
+            <lightning-button style="display:none;" variant="brand-outline" label="Search" title="Search based on filters" class="slds-m-left_x-small" onclick={handleClick}></lightning-button>
+            
+        </div>
+
+        <c-search-results selected-brand={selectedBrand} 
+                          product-type={selectedProductType}
+                          category-choice={selectedCategory}
+                          subcategory-choice={selectedSubCategory}
+                          retail-option={retail}
+                          food-service-option={foodService}
+                          filter-string={filterString}></c-search-results>
+    
+</template>

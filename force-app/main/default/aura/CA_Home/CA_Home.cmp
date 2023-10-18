@@ -1,0 +1,80 @@
+<aura:component implements="forceCommunity:themeLayout" access="global" description="Home Layout">
+    <aura:attribute name="search" type="Aura.Component[]"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"/>
+	<aura:attribute name="notifications" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="navBar" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="communityLogo" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="areaOne" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="footerCol1" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="footerCol2" type="Aura.Component[]" required="false"/>
+	<aura:attribute name="footerCol3" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="footer" type="Aura.Component[]" description="Footer"/>
+    
+	
+    <div>      
+        <div class="slds-grid slds-wrap slds-grid_align-center">
+            <div class="slds-grid slds-large-size_8-of-12 slds-align_absolute-center slds-gutters_direct-x-small slds-wrap">
+                <div class="slds-grid slds-align_absolute-center logo slds-size_1-of-1 slds-large-size_3-of-8 " style="">
+                    {!v.communityLogo}
+                </div>
+                <div class="slds-grid slds-size_1-of-1 slds-large-size_5-of-8 slds-grid_vertical">
+                    <div class="slds-grid slds-gutters_direct-x-small slds-wrap slds-grid_align-center" style="margin-bottom: 1em;">
+                        <div class="slds-col searchRegion slds-size_1-of-1 slds-large-size_4-of-8" style="margin-top: auto; margin-bottom: auto;">
+                            {!v.search}
+                        </div>
+                        <div class="slds-col top-button slds-size_1-of-4 slds-large-size_1-of-8" style="margin-top: auto; margin-bottom: auto; max-width: 180px; min-width: 160px;">
+                            {!v.areaOne}
+                        </div>
+                     
+                        <div class="slds-grid slds-large-size_1-of-8" style="margin-top: auto; margin-bottom: auto;">
+                            <div class="slds-col notifications">
+                            <span><forceCommunity:notifications/></span>
+                        </div>
+                        <div class="slds-col profileMenuRegion" style="margin-top: auto; margin-bottom: auto;">
+                            <span>{!v.profileMenu}</span>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>     
+		
+        <div class="themeHeaderBottomRow .slds-show_small" style="padding-top:2px; padding-bottom:2px; background-color: rgb(0, 65, 101);border-top: 1px solid rgb(0, 65, 101);">
+            <div class="themeHeaderBottomRowInner" style="">
+                <div class="navigation">                   
+                	{!v.navBar}
+            	</div>
+            </div>
+        </div>
+            
+		<div class="slds-grid slds-wrap mainsection" style="justify-content: center;">
+			 <div  class="slds-size_1-of-1 slds-gutters_large slds-container_x-large mainContentArea" style="-ms-flex: 1;"> 
+        	<div style="-ms-flex: 1">
+    			{!v.body}
+			</div>    
+        </div> 		
+            
+		</div>         
+    </div>       
+  
+
+    
+<!--start of footer wrapper-->
+	<div id="footerWrapper">
+		
+	<div class="slds-grid slds-wrap slds-gutters_large slds-grid_vertical-align-start slds-align_absolute-center slds-container_x-large">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-align_absolute-center">
+        <span>{!v.footerCol1}</span>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-align_absolute-center">
+        <span>{!v.footerCol2}</span>
+        </div>
+		<div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-align_absolute-center">
+        <span>{!v.footerCol3}</span>
+        </div>
+        </div>
+	</div>
+<!--end of footer wrapper-->
+	
+</aura:component>

@@ -1,0 +1,578 @@
+.hdr {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.subhdr1 {
+    display: flex;
+    /* height: 37px; */
+    background-color: #005d92;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.hidecls {
+    display: none;
+}
+
+.rightsidemenu {
+    display: flex;
+    flex-direction: row;
+}
+
+.btnmore {
+    width: 10rem;
+}
+
+.rightdropdown {
+    position: absolute;
+    left: 100% !important;
+    margin-top: 0 !important;
+    border: 1px solid #D4D4D4 !important;
+    margin-left: 8px !important;
+}
+
+.dropdowncls {
+    background: white;
+    position: absolute;
+    z-index: 99999;
+    margin-top: 24px;
+}
+
+.showcls {
+    display: block;
+}
+
+.membertxt {
+    padding-left: 5px;
+}
+
+.memberarea {
+    display: flex;
+    color: white;
+    align-items: center;
+    background-color: #f5793b;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+
+.memimg {
+    height: 15px;
+    width: 15px;
+    margin: auto;
+}
+
+.mainwebarea {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding-right: 24px;
+}
+
+.livefree {
+    display: flex;
+    color: white;
+    align-items: center;
+    padding-right: 24px;
+}
+
+.livefree a {
+    color: white;
+    text-decoration: none;
+    display: contents;
+}
+
+.number {
+    display: flex;
+    color: white;
+    align-items: center;
+}
+
+.gotopageicon {
+    width: 15px;
+    height: 15px;
+}
+
+.phoneimg {
+    height: 15px;
+    width: 15px;
+
+}
+
+.subhdr2 {
+    display: flex;
+    padding-left: 8%;
+    padding-right: 8%;
+    height: auto;
+
+    min-height: 40px;
+
+}
+
+.subhdr3 {
+    display: flex;
+    padding-right: 8%;
+    height: auto;
+    min-height: 40px;
+    justify-content: end;
+    white-space: nowrap;
+}
+
+.subhdr3 a {
+    color: white;
+    text-decoration: none;
+    display: contents;
+}
+
+.shop {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.shop a {
+    color: white;
+    text-decoration: none;
+}
+
+.phnnumber {
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.liveglutentxt {
+    padding-left: 5px;
+    font-size: 13px;
+    padding-top: 2px;
+}
+
+.mainwebtxt {
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.mymembership {
+    border: none !important;
+}
+
+.mymembership .slds-dropdown__list .slds-dropdown__item .slds-truncate {
+    color: black !important;
+}
+
+.mymembership .slds-dropdown__list {
+    left: 8px;
+}
+
+.getinvolved .slds-dropdown__list .slds-dropdown__item .slds-truncate {
+    color: black !important;
+}
+
+.myresource .slds-dropdown__list .slds-dropdown__item .slds-truncate {
+    color: black !important;
+}
+
+.mymembership .slds-dropdown__list .slds-dropdown__item :hover {
+    background-color: lightgrey !important;
+}
+
+.getinvolved .slds-dropdown__list .slds-dropdown__item :hover {
+    background-color: lightgrey !important;
+}
+
+.myresource .slds-dropdown__list .slds-dropdown__item :hover {
+    background-color: lightgrey !important;
+}
+
+.hidborder {
+    border: none !important;
+    border-color: unset !important;
+}
+
+.membermenu,
+.resourcesmenu,
+.involvedmenu {
+    display: flex;
+}
+
+
+input[type="button"] {
+    border-radius: 17px;
+    border: 0;
+    height: 35px;
+    width: fit-content;
+    font-size: 12px;
+    text-align: center;
+    padding: 3px;
+
+}
+
+.donationbtn input[type="button"] {
+    background-color: #d53d66;
+    color: white;
+    font-size: 14px;
+    padding: 5px 26px;
+}
+
+.donationbtn {
+    margin-left: 10px;
+}
+
+.logintxt input[type="button"] {
+    background-color: white;
+    color: black;
+    font-size: 15px;
+}
+
+input.nosubmit {
+    border: 1px solid #DEDEDE;
+    display: block;
+    margin-top: 3px;
+
+}
+
+.coeliacimg {
+    width: max-content;
+}
+
+.coeliacimg img {
+    height: 57px;
+    width: 95px;
+    /* margin-top: -25px; */
+}
+
+.subclass {
+    /* padding-top: 27px; */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainsub {
+    display: flex;
+
+}
+
+.membermenu {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.slds-form-element {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.buttonclass {
+    display: flex;
+    gap: 10px;
+    /* margin: auto; */
+}
+
+/* .slds-form-element {
+    z-index: 2;
+} */
+
+
+.membermenu,
+.newsmenu,
+.resourcesmenu,
+.discountmenu,
+.involvedmenu,
+.connectmenu,
+.faqmenu {
+    /* padding-top: 10px !important; */
+}
+
+.newsmenu a,
+.membermenu a,
+.discountmenu a,
+.resourcesmenu a,
+.connectmenu a,
+.involvedmenu a,
+.faqmenu a {
+    text-decoration: none;
+    color: black;
+}
+
+.getinvolved,
+.mymembership,
+.myresource {
+    background-color: white !important;
+}
+
+.hidborder .slds-button_icon {
+    color: black !important;
+}
+
+.slds-input-has-icon {
+    margin-right: 10px;
+}
+
+.wrpbtn {
+    white-space: nowrap;
+}
+
+@media (min-width: 768px) and (max-width: 1005px) {
+    .subhdr3 {
+        padding-right: 2%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .membertxt {
+        display: none;
+    }
+
+    .subhdr2 {
+        padding-left: 0px;
+        padding-right: 0px;
+        gap: 0px;
+    }
+
+    .memberarea {
+        background-color: unset;
+        padding-left: 0px;
+        padding-right: 0px;
+        display: none;
+    }
+
+    .mainwebarea {
+        padding: 0px 15px 0px 15px;
+        background-color: #6cb049;
+    }
+
+    .livefree {
+        padding: 0px 15px 0px 15px;
+        background-color: #f5793b;
+    }
+
+    .number {
+        padding: 0px 15px 0px 15px;
+    }
+
+    .memimg {
+        height: 25px;
+        width: 25px;
+    }
+
+    .gotopageicon {
+        height: 25px;
+        width: 25px;
+    }
+
+    .phoneimg {
+        height: 21px;
+        width: 21px;
+    }
+
+    .shop {
+        font-size: 16px;
+        padding-right: 13px;
+        padding-left: 16px;
+    }
+
+    .subhdr3 {
+        padding-right: 0px;
+    }
+
+    .mainwebtxt {
+        display: none;
+    }
+
+    .liveglutentxt {
+        display: none;
+    }
+
+    .phnnumber {
+        display: none;
+    }
+
+    .subclass {
+        display: none;
+    }
+
+
+}
+
+@media (min-width: 980px) and (max-width: 1230px) {
+    .subhdr2 {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .subhdr3 {
+        padding-right: 3%;
+    }
+
+
+
+    .wrpbtn {
+        white-space: nowrap;
+    }
+}
+
+@media (min-width: 894px) and (max-width: 980px) {
+    .subhdr2 {
+        padding-left: 1%;
+        padding-right: 0%;
+    }
+
+    .subhdr3 {
+        padding-right: 3%;
+    }
+
+    .donationbtn {
+        padding-left: 0 !important;
+        margin-left: 0px !important;
+    }
+
+
+
+
+    .searchbox {
+        width: 30% !important;
+    }
+
+    .donationbtn .donationbtninput {
+        padding: 5px 10px !important;
+    }
+}
+
+@media (max-width: 894px) {
+    .subhdr2 {
+        padding-left: 1%;
+        padding-right: 1%;
+    }
+
+    .slds-form-element {
+        padding-left: 5px;
+    }
+
+    .donationbtn {
+        margin-left: 0px !important;
+    }
+
+    .buttonclass {
+        gap: 5px !important;
+    }
+
+    .donationbtn .donationbtninput {
+        padding: 5px 12px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* more oprion for this */
+nav {
+    top: 0;
+    left: 0;
+}
+
+nav .navbar .links {
+    display: flex;
+    line-height: 18px !important;
+}
+
+.more {
+    white-space: nowrap;
+    color: black;
+    background-color: white;
+}
+
+nav .navbar .links li {
+    position: relative;
+
+}
+
+.buttonmargin {
+    margin-left: 8px;
+}
+
+nav .navbar .links li .sub-menu {
+    position: absolute;
+
+    left: 0;
+    line-height: 40px;
+    display: none;
+    z-index: 2;
+
+}
+
+nav .navbar .links li .margin {
+    margin-top: 25px;
+}
+
+.moreoptioncss {
+    background-color: white;
+    border: none;
+}
+
+.testclass {
+    display: none !important;
+}
+
+.testclass1 {
+    display: block !important;
+}
+
+.moreoptioncss:hover {
+    background-color: lightgrey !important;
+}
+
+.more:hover {
+    background-color: lightgrey !important;
+}
+
+
+.navbar .links li .sub-menu a {
+    font-size: 14px;
+}
+
+
+.navbar .links li .sub-menu .more-sub-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    border-radius: 0 4px 4px 4px;
+    z-index: 1;
+    display: none;
+}
+
+.slds-button {
+    color: black;
+}
+
+.links li .sub-menu .more:hover .more-sub-menu {
+    display: block !important;
+
+}
+
+.moreSubName:hover {
+    background-color: lightgrey !important;
+}
+
+
+nav .navbar .nav-links {
+    max-width: 100%;
+}
+
+.moreSubName a {
+    padding: 8px;
+}
+
+.colorclass {
+    background-color: white;
+}

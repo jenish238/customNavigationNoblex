@@ -1,0 +1,17 @@
+.THIS .slds-resizable__divider{
+    visibility:hidden;
+}
+
+.THIS .slds-th__action-button.slds-dropdown-trigger .slds-button {
+    visibility:hidden;
+}
+
+.THIS .slds-card__header {
+    padding-bottom: 1rem;
+    border-bottom: var(--lwc-borderWidthThin,1px) solid var(--lwc-cardColorBorder,rgb(212, 212, 212));
+    background-color: var(--lwc-colorGray2);
+}
+
+.THIS .slds-card__header span div {
+    background-color: var(--lwc-colorGray2);
+}

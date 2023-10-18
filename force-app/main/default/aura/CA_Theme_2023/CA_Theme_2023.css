@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@media only screen and (max-width: 766px) {
+  .THIS .themeHeaderBottomRowInner {
+    width: 100% !important;
+  }
+}
+
+.THIS .themeHeaderBottomRowInner .slds-button.slds-button_icon.slds-button_icon-bare {
+    padding-left: 10px;
+}
+
+.THIS .homeicon lightning-primitive-icon svg{
+    fill: white !important;
+    margin-top: 6px;
+    margin-left: 0px;
+}
+
+.THIS .themeHeaderBottomRowInner .li {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.THIS .themeHeaderBottomRowInner .textMenuItem.slds-p-vertical_x-small.slds-p-horizontal_small.horizontalMenuItemContainer {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.THIS {
+    position: relative;
+    z-index: 1;
+}
+
+.THIS ul[community_navigation-multiLevelNavigation_multiLevelNavigation]{
+	display: flex;
+    align-items: stretch; 
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.THIS .textMenuItem.slds-p-vertical_x-small.slds-p-horizontal_small.horizontalMenuItemContainer {
+    margin-left: 0px;
+}
+
+.THIS .textMenuItem.slds-p-vertical_x-small.slds-p-horizontal_small.horizontalMenuItemContainer:first-child {
+    margin-left: 0px;
+    padding-right: 15px !important;
+}
+
+.THIS ul[community_navigation-multiLevelNavigation_multiLevelNavigation] li:hover[community_navigation-multiLevelNavigation_multiLevelNavigation] {
+    background: none;
+}
+
+.THIS .themeHeaderBottomRowInner {
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.THIS .search-field-wrapper input {
+    height: 40px;   
+}
+
+.THIS .search-input-group button {
+    border-radius: 0px 2px 2px 0px;
+}
+
+.THIS .top-button button{
+    height: 40px;
+}
+
+.THIS .logo{
+}
+
+.THIS .notifications{
+    float:left;
+    padding-top: 4px;
+}
+
+.THIS .profileMenuRegion{
+    color:#4d4d4d;
+}
+
+.THIS .selfServiceProfileMenuTrigger .profileName{
+    max-width:70%;
+}
+
+.THIS .profileMenuRegion a{
+    color:#4d4d4d;
+}
+
+.THIS .selfServiceUserProfileMenu .login .linkLabel{
+    color:#4d4d4d;
+    font-weight:300;
+}
+
+.THIS .logo{
+    padding:1em 0;
+}
+
+.THIS .searchRegion{
+    padding:1em;
+}
+
+.THIS .forceCommunitySearchBox.big-search-container{
+    z-index:1;
+}
+
+.THIS .forceCommunitySearchBox .search-field{
+    border:1px solid #e6e7e8;
+}
+
+.THIS .areaOne{
+    background:red;
+    display:block;
+}
+
+
+.THIS#footerWrapper{
+    width: 100%;
+    background: #004165;
+    color: #ffffff;
+}
+
+.THIS#greyWrapper,
+.THIS#footerWrapper {
+	padding:1em;
+}

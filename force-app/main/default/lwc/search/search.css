@@ -1,0 +1,43 @@
+.search {
+  width:50%;
+}
+
+.filter {
+  width: 25%;
+  display: inline-block;
+}
+
+.middle {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.divider {
+  height: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+  .search {
+    width: 100%;
+  }
+
+   .filter {
+    width: 100%;
+    display: block;
+  }
+
+  .divider {
+    height: 0px;
+  }
+
+  .middle {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .distribution {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+ }

@@ -1,0 +1,12 @@
+<template>
+   <div onclick={selectProductBrand} class={tileClass} >
+      <div class="lower-third">               
+         <template if:true={brandImage}>
+            <img src={brandImage} alt="Brand image">          
+         </template>
+         <template if:false={brandImage}>
+            <h1 class="slds-truncate slds-text-heading_medium">{newProduct.Brand__c}</h1>    
+         </template> 
+      </div> 
+   </div>   
+</template>

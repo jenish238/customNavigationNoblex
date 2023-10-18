@@ -1,0 +1,110 @@
+.THIS {
+}
+
+.THIS .bank-deposit-style{
+    /* margin-left: 5% !important; */
+}
+
+.THIS .slds-scope .slds-input {
+    /* line-height: 2.2rem !important; */
+}
+
+
+.THIS input[type="date"]::-webkit-inner-spin-button{
+    display: none;
+}
+
+.THIS .uiInput--lookup .lookup__item a {
+    color: #000;
+}
+
+.THIS .createNew {
+    display: none;
+}
+
+.THIS .uiInput:focus {
+    outline: none;
+}
+
+.THIS .slds-select_container::before {
+    border-bottom: none;
+}
+
+.THIS .slds-select_container::after {
+    border-top: none;
+}
+
+.THIS .showEmptyContent, 
+.THIS .invisible, 
+.THIS .searchButton {
+    display: none;
+}
+
+.THIS .uiInputTextForAutocomplete {
+    min-height: 32px;
+    padding: 0 10px;
+    width: 100%;
+}
+.THIS .warning-message {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    width: 50%;
+    height: 35px;
+    padding: 8px 25px!important;
+    font-weight: bold;
+}
+
+.THIS .no-result-found {
+    font-weight: bold;
+    color: #9F6000;
+    text-align: center;
+}
+
+
+.THIS .custom-helptext{
+    display: inline !important;
+    padding-left: 5px;
+}
+
+.THIS .slds-icon{
+    width: 1.1rem !important;
+}
+
+.THIS .ms-help-popup-in-header {
+    display: inline-block;
+    position: absolute !important;
+    top: -10px !important;
+    left: 55px !important;
+    margin-left: -1rem !important;
+    max-width: 20rem !important;
+    overflow: visible !important;
+    text-transform: none !important;
+}
+
+.THIS .ms-help-popup-in-header:before, .THIS .ms-help-popup-in-header:after {
+    width: 0.8rem !important;
+    height: 0.8rem !important;
+    position: absolute;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    top: 50%;
+    left: -0.4rem !important;
+    margin-top: -.8rem !important;
+}
+
+.THIS .ms-help-popup-body {
+    white-space: unset !important;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    width: 200px;
+}
+
+.THIS.loading{
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}

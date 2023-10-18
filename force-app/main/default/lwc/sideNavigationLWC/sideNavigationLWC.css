@@ -1,0 +1,106 @@
+.sidebar {
+    height: fit-content;
+    min-width: 18%;
+    max-width: 18%;
+}
+
+.sidebar-button {
+    width: 20px;
+}
+
+.daDIcon {
+    padding: 0px !important;
+}
+
+.open-panel {
+    width: 17%;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.close-panel {
+    width: 0px;
+    min-width: 0px;
+    overflow: unset;
+    transition: 0.3s;
+}
+
+.expand-panel {
+    /* width: 99.5%; */
+    transition: 0.3s;
+}
+
+.collapse-panel {
+    width: 82.5%;
+    transition: 0.3s;
+}
+
+.page-section {
+    border: solid 1px #ccc;
+    padding: .25rem;
+    background-color: #fff;
+}
+
+.refreshRotate {
+    animation: rotate .4s;
+}
+
+.expand-panel .slds-m-bottom_small .slds-card {
+    position: unset !important;
+}
+
+.expand-panel .slds-m-bottom_small {
+    position: unset !important;
+}
+
+.popupdiv {
+    display: flex;
+}
+
+.leftdiv {
+    width: 50%;
+    border-right: 1px solid #d8d8d8;
+}
+
+.righdiv {
+    width: 50%;
+}
+
+.subtabletd .slds-form-element div .slds-form-element__label {
+    display: none !important;
+}
+
+.addrowbutton {
+    display: flex;
+    width: fit-content;
+}
+
+.btndiv {
+    display: flex;
+}
+
+.mainsavebtn {
+    height: fit-content;
+    padding-left: 0 !important;
+}
+
+.combodiv {
+    padding-top: 20px;
+    /* padding-bottom: 20px; */
+}
+
+.headermenu {
+    padding-top: 10px;
+}
+
+.profileline {
+    margin: 20px;
+}
+
+.icon {
+    margin-left: 16px;
+}
+
+.slds-m-top_medium {
+    margin-bottom: 16px !important;
+}

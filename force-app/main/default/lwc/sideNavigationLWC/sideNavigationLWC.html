@@ -1,0 +1,351 @@
+<template>
+    <div>
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container" style="position:fixed;opacity:1;">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                    <div class="custom-loading-text">
+
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop_open" style="opacity: 0;"></div>
+        </template>
+    </div>
+    <div class="sidebar slds-split-view_container slds-is-open" data-my-id="leftPanel" style="float: left">
+
+
+        <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow"
+            style="padding-right: 7px">
+            <lightning-vertical-navigation selected-item={selectedNav} onselect={handleSelect}>
+                <lightning-vertical-navigation-section label="Menus">
+                    <lightning-vertical-navigation-item-icon label="Header Menu" name="Header Menu"
+                        icon-name="utility:clock">
+
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item-icon label="Footer Resources Menu" name="Footer Resources Menu"
+                        icon-name="utility:user">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item-icon label="Footer Policy Menu" name="Footer Policy Menu"
+                        icon-name="utility:lock">
+                    </lightning-vertical-navigation-item-icon>
+
+                </lightning-vertical-navigation-section>
+
+            </lightning-vertical-navigation>
+        </article>
+    </div>
+
+
+
+    <div style="padding-left:10px;" data-my-id="rightPanel" class="expand-panel">
+        <!--Main Right Body Section-->
+
+
+        <lightning-card title={selectedNav} icon-name="standard:account" class="slds-m-bottom_small"
+            style="display: flex;flex-direction:column;">
+
+            <!--Profile Selction Start-->
+
+            <template if:true={changeStatus}>
+
+
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+                    aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box LWC header here -->
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                title="Close" onclick={closepermisspopup}>
+                                <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                    size="small"></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Personalize of
+                                {PersonalizeName}</h2>
+                        </header>
+                        <!-- Modal/Popup Box LWC body starts here -->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                            <div class="slds slds-p-around_medium">
+                                <lightning-combobox name="progress" label="Status" value=""
+                                    placeholder="Select User or Profile" options={options}
+                                    onchange={handleComboChange}></lightning-combobox>
+
+                                <div class="slds-lookup combodiv">
+                                    <div class="slds-form-element__control">
+                                        <input type="text" class="slds-input" data-id="searchLookupValue"
+                                            onkeyup={search} placeholder="Search..." value={searchLookup}></input>
+                                    </div>
+
+                                    <template if:true={showSearchResults}>
+                                        <div class="slds-lookup__menu slds-show">
+                                            <ul class="slds-lookup__list">
+                                                <template for:each={searchResults} for:item="item">
+                                                    <li key={item.Id} role="presentation">
+                                                        <a key={item.Id} href="#" class="slds-truncate"
+                                                            data-sfid={item.Id} data-email={item.Name}
+                                                            onclick={searchSelect}>
+                                                            <span
+                                                                class="slds-lookup__item-action slds-lookup__item-action--label">
+                                                                {item.Name}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </template>
+                                </div>
+
+
+
+                                <div class="slds-form-element slds-m-top_medium">
+                                    <label class="slds-form-element__label label" style="color:#b51702;">
+                                        <strong>Menus visible for below profile and username</strong>
+                                    </label>
+                                    <div id="recipientItem">
+                                        <template for:each={recipients} for:item="rec" for:index="index">
+                                            <span class="slds-pill slds-m-around--xxx-small" key={rec.id}>
+                                                <label class="slds-pill__label">{rec}</label>
+                                                <button class="slds-button slds-button--icon slds-pill__remove"
+                                                    onclick={removeRecipient} data-index={index}>
+                                                    X
+                                                </button>
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <span>
+                                    <lightning-button class="slds-p-around_medium headermenu mainsavebtn"
+                                        variant="brand" label="Save" title="Save"
+                                        onclick={addToRecipients}></lightning-button>
+                                </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal}
+                            title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+                    </footer>
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+
+
+</template>
+
+<!--Profile Selction End-->
+<div class="slds-p-around_medium tablediv">
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer mytable">
+        <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+
+
+                <th scope="col">URL</th>
+
+
+                <!-- <th scope="col">Order</th> -->
+
+
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={menuItemValues} for:item="menuvalue" for:index="index">
+
+
+                <tr key={menuvalue.value} class="subtabletd" draggable="true" ondrop={Drop} ondragstart={DragStart}
+                    ondragover={DragOver} title={index} data-id={menuvalue.Id} data-name="parents">
+
+                    <td class="daDIcon">
+                        <lightning-button-icon icon-name="utility:rows" data-id={menuvalue.Id}
+                            data-name={menuvalue.Name} alternative-text="drag and drop" key={menuvalue.Id}
+                            title="drag and drop MenuItems"></lightning-button-icon>
+                    </td>
+
+
+                    <td data-label="Column 1" class="slds-p-around_small ">
+                        <lightning-input type="text" value={menuvalue.Name} data-id={menuvalue.Id} data-index={index}
+                            data-property="Name" onchange={handleInputChangeMain}></lightning-input>
+                    </td>
+                    <td data-label="Column 1" class="slds-p-around_small">
+                        <lightning-input type="text" value={menuvalue.URL__c} data-id={menuvalue.Id} data-index={index}
+                            data-property="URL__c" onchange={handleInputChangeMain}></lightning-input>
+                    </td>
+
+                    <td data-label="Column 1" class="slds-p-around_small">
+                        <lightning-input type="checkbox" checked={menuvalue.IsActive__c} data-id={menuvalue.Id}
+                            data-index={index} data-property="IsActive__c"
+                            onchange={handleInputChangeMain}></lightning-input>
+                    </td>
+                    <td data-label="Prospecting">
+
+
+
+                        <lightning-button-icon icon-name="utility:people" data-id={menuvalue.Id}
+                            data-name={menuvalue.Name} data-label="parent" alternative-text="Personalize"
+                            title="Personalize" onclick={openFieldScu}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-left_x-small" icon-name="utility:edit"
+                            data-id={menuvalue.Id} data-name={menuvalue.Name} alternative-text="Edit"
+                            title="Edit MenuItems" onclick={openpopup}></lightning-button-icon>
+                        <lightning-button-icon class="slds-m-left_x-small" icon-name="action:delete"
+                            data-id={menuvalue.Id} alternative-text="Delete" title="Delete"
+                            onclick={handleMainDeleteAction}>
+                        </lightning-button-icon>
+                    </td>
+
+                </tr>
+            </template>
+
+        </tbody>
+    </table>
+    <div class="btndiv">
+        <lightning-button class="slds-p-around_medium addrowbutton" label="Add Menu" slot="actions"
+            icon-name="utility:add" onclick={addRowmain}></lightning-button>
+        <lightning-button class="slds-p-around_medium mainsavebtn" variant="brand" label="Save" title="Save"
+            onclick={saveMainData}></lightning-button>
+
+    </div>
+</div>
+
+<!-- </template> -->
+</lightning-card>
+<article class="slds-grid slds-grid_vertical slds-grow slds-scrollable_none slds-m-top_x-small slds-m-bottom_x-large">
+    <div class=" slds-grid slds-grid_vertical slds-scrollable_y">
+
+    </div>
+</article>
+</div>
+
+<template if:true={isShowModal}>
+
+    <!--
+            I Used SLDS for this code
+            Here is link https://www.lightningdesignsystem.com/components/modals/
+        -->
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open menusection">
+        <div class="slds-modal__container">
+
+            <!-- modal header start -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={hideModalBox}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Sub MenuItem -
+                    {metaname}</h2>
+            </header>
+
+
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <div>
+                    <div class="slds-p-around_medium tablediv">
+                        <template if:true={childExist}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="slds-text-title_caps">
+                                        <th scope="col"></th>
+                                        <th scope="col">Name</th>
+
+
+                                        <th scope="col">URL</th>
+
+
+                                        <!-- <th scope="col">Order</th> -->
+
+
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={childMetaRecords} for:item="childvalue" for:index="index">
+                                        <tr key={childvalue.value} class="subtabletd" draggable="true" ondrop={Drop}
+                                            ondragstart={DragStart} ondragover={DragOver} title={index}
+                                            data-id={childvalue.Id} data-name="childs">
+
+
+                                            <td class="daDIcon">
+                                                <lightning-button-icon icon-name="utility:rows" data-id={childvalue.Id}
+                                                    data-name={childvalue.Name} alternative-text="drag and drop"
+                                                    key={childvalue.Id}
+                                                    title="drag and drop MenuItems"></lightning-button-icon>
+                                            </td>
+
+
+                                            <td data-label="Column 1" class="slds-p-around_small ">
+                                                <lightning-input type="text" value={childvalue.Name}
+                                                    data-id={childvalue.Id} data-index={index} data-property="Name"
+                                                    onchange={handleInputChange}></lightning-input>
+                                            </td>
+                                            <td data-label="Column 1" class="slds-p-around_small">
+                                                <lightning-input type="text" value={childvalue.URL__c}
+                                                    data-id={childvalue.Id} data-index={index} data-property="URL__c"
+                                                    onchange={handleInputChange}></lightning-input>
+                                            </td>
+
+                                            <td data-label="Column 1" class="slds-p-around_small">
+                                                <lightning-input type="checkbox" checked={childvalue.IsActive__c}
+                                                    data-id={childvalue.Id} data-index={index}
+                                                    data-property="IsActive__c"
+                                                    onchange={handleInputChange}></lightning-input>
+                                            </td>
+                                            <td data-label="Prospecting">
+
+                                                <lightning-button-icon icon-name="utility:people"
+                                                    data-id={childvalue.Id} data-name={childvalue.Name}
+                                                    data-label="child" alternative-text="Personalize"
+                                                    title="Personalize" onclick={openFieldScu}></lightning-button-icon>
+
+
+                                                <lightning-button-icon class="slds-m-left_x-small"
+                                                    icon-name="action:delete" data-id={childvalue.Id}
+                                                    alternative-text="Delete" title="Delete"
+                                                    onclick={handleDeleteAction}></lightning-button-icon>
+                                            </td>
+
+                                        </tr>
+                                    </template>
+
+                                    <!-- <div class="slds-m-around_medium"> -->
+                                </tbody>
+                            </table>
+                        </template>
+                        <lightning-button class="slds-p-around_medium addrowbutton" label="Add MenuItem" slot="actions"
+                            icon-name="utility:add" onclick={addRow}></lightning-button>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={saveData}>Save</button>
+            </footer>
+
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</template>

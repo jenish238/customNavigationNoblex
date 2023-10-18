@@ -1,0 +1,70 @@
+<apex:page controller="Receipts_PdfController" standardStylesheets="false" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style type="text/css">
+            @page { size: A4; }
+            .content-message { min-height: 470px; }
+            .page-break { page-break-after: always; }
+        </style>
+    </head>
+    <body style="font-size: 13px; font-family: Arial, Helvetica, sans-serif;">
+        <apex:variable value="{!0}" var="count"/>
+        <apex:repeat var="paymentWrapper" value="{!paymentData}">
+            <apex:variable value="{!count+1}" var="count"/>
+            <div class="header">
+
+                <apex:image width="100%" value="{!IF(ISBLANK(paymentWrapper.letterheadUrl), URLFOR($Resource.TaxReceiptHeader), paymentWrapper.letterheadUrl)}"/>
+
+                <div class="date-address">
+                    <p style="margin-left: 40px;margin-bottom: 15px;">
+                        <apex:outputText value="{!paymentWrapper.payment.Transaction_Date_Formatted__c}">
+                        </apex:outputText>
+                    </p>
+                    <p style="margin-left: 40px;">
+                        {!paymentWrapper.payment.AAkPay__Contact__r.Salutation} {!paymentWrapper.payment.AAkPay__Contact__r.Name}<br />
+                        {!paymentWrapper.payment.AAkPay__Contact__r.MailingStreet}<br />
+                        {!paymentWrapper.payment.AAkPay__Contact__r.MailingCity} {!paymentWrapper.payment.AAkPay__Contact__r.MailingState} {!paymentWrapper.payment.AAkPay__Contact__r.MailingPostalCode}<br />
+                        {!paymentWrapper.payment.AAkPay__Contact__r.MailingCountry}<br /><br /><br />
+                    </p>
+                </div>
+                <div class="content-message">
+                    <apex:outputText value="{!paymentWrapper.letterText}" escape="false"/>
+                </div>
+            </div>
+            <table style="width: 100%;" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #2f5677; color: #FFFFFF">
+                    <th>Receipt No.</th>
+                    <th>Date</th>
+                    <th>Item</th>
+                    <apex:outputPanel layout="none" rendered="{!paymentWrapper.payment.AAkPay__Tax_Amount__c != null && paymentWrapper.payment.AAkPay__Tax_Amount__c > 0}">
+                        <th>Tax Inc.</th>
+                    </apex:outputPanel>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>
+                        <apex:outputField value="{!paymentWrapper.payment.AAkPay__Receipt_Number__c}" />
+                    </td>
+                    <td>
+                        <apex:outputField value="{!paymentWrapper.payment.AAkPay__Transaction_Date__c}" />
+                    </td>
+                    <td>
+                        <apex:outputField value="{!paymentWrapper.payment.AAkPay__Payment_For__c}" />
+                    </td>
+                    <apex:outputPanel layout="none" rendered="{!paymentWrapper.payment.AAkPay__Tax_Amount__c != null && paymentWrapper.payment.AAkPay__Tax_Amount__c > 0}">
+                        <td>
+                            <apex:outputField value="{!paymentWrapper.payment.AAkPay__Tax_Amount__c}" />
+                        </td>
+                    </apex:outputPanel>
+                    <td>
+                        <apex:outputField value="{!paymentWrapper.payment.AAkPay__Banked_Amount__c}" />
+                    </td>
+                </tr>
+            </table>
+            <div class="footer {!IF(paymentData.size==count,'','page-break')}">
+                <p style="font-size: 11px;margin-top: 30px;"><apex:outputField value="{!paymentWrapper.payment.AAkPay__Payment_Setting__r.AAkPay__Receipt_Footer__c}" /></p>
+                <div>
+                </div>
+            </div>
+        </apex:repeat>
+    </body>
+</apex:page>

@@ -1,0 +1,185 @@
+<template>
+    <div class="hdr">
+        <div class="subhdr1 slds-grid slds-wrap">
+            <div class="subhdr2 slds-size_1-of-2">
+                <div class="memberarea"  onclick={redirecttohome}>
+                    <a>
+                        <img class="memimg" src={memberimg}></a>
+                    <p class="membertxt">Member area home</p>
+                </div>
+                <div class="shop">
+                    <a href="http://shop.coeliac.rg.au/">
+                        <p>Shop</p>
+                    </a>
+                </div>
+            </div>
+            <div class="subhdr3 slds-size_1-of-2">
+                <div class="mainwebarea">
+                    <a href="https://www.coeliac.org.au/">
+                        <img class="gotopageicon" src={collapseimg}>
+                        <p class="mainwebtxt">Main website area</p>
+                    </a>
+                </div>
+                <div class="livefree">
+                    <a href="https://glutenfreeliving.com.au/">
+                        <img class="gotopageicon" src={collapseimg}>
+                        <p class="liveglutentxt">Gluten-Free Living</p>
+                    </a>
+                </div>
+                <div class="number">
+                    <img class="phoneimg" src={phoneimg}>
+                    <p class="phnnumber">1300 GLUTEN (1300 458 836)</p>
+                </div>
+            </div>
+        </div>
+        <div class="subhdr2 subclass">
+
+            <div class="mainsub">
+                <div class="coeliacimg">
+                    <a href="https://www.coeliac.org.au/s">
+                        <img src={coeliacimg}></a>
+                </div>
+                <!-- <template if:true={showvisibility}> -->
+                <div class="membermenu">
+                    <template for:each={headerdata} for:item="head" for:index="index">
+                        <div if:true={head.IsActive__c}
+                            class="slds-m-left_x-small slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open hidborder"
+                            key={head}>
+                            <template if:true={head.Metadata_Objects__r}>
+                                <template if:true={head.icon_visible}>
+                                    <button class="slds-button slds-button_icon wrpbtn" data-value={head.Name}
+                                        style="cursor:pointer;" data-name={head.Name} data-type="Button"
+                                        aria-haspopup="true" aria-expanded="true" title={head.Name} onclick={openmenu}
+                                        data-url={head.URL__c} onblur={blurmenu}>
+                                        {head.Name}
+                                        <lightning-icon if:true={head.icon_visible} icon-name="utility:chevrondown"
+                                            style="cursor:pointer;" alternative-text="menuicon" size="xx-small"
+                                            title="Menu"></lightning-icon>
+                                    </button>
+                                </template>
+                            </template>
+
+                            <template if:true={head.Metadata_Objects__r}>
+                                <template if:false={head.icon_visible}>
+                                    <button class="slds-button slds-button_icon wrpbtn" data-value={head.Name}
+                                        data-name={head.Name} data-url={head.URL__c} aria-haspopup="true"
+                                        aria-expanded="true" title={head.Name} onclick={openmenu} data-type="Hyperlink"
+                                        onblur={blurmenu}>
+                                        {head.Name}
+                                    </button>
+                                </template>
+                            </template>
+
+
+                            <template if:false={head.Metadata_Objects__r}>
+                                <button class="slds-button slds-button_icon wrpbtn" data-value={head.Name}
+                                    data-name={head.Name} data-url={head.URL__c} aria-haspopup="true"
+                                    aria-expanded="true" title={head.Name} onclick={openmenu} data-type="Hyperlink"
+                                    onblur={blurmenu}>
+                                    {head.Name}
+                                </button>
+                            </template>
+                            <template if:true={head.Metadata_Objects__r}>
+                                <div data-key={head.Name} class="hidecls dropdowncls">
+                                    <template for:each={head.Metadata_Objects__r} for:item="submenu">
+                                        <div if:true={submenu.IsActive__c} class="mymembership" key={submenu}>
+                                            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                                <li class="slds-dropdown__item" role="presentation">
+                                                    <a href={submenu.URL__c}>
+                                                        <span class="slds-truncate" 
+                                                            title={submenu.Name}>{submenu.Name}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+
+                    <template if:true={showvisibility}>
+                        <nav>
+                            <div class="navbar">
+                                <div class="nav-links">
+                                    <ul class="links">
+                                        <li class="linkss">
+                                            <button class="slds-button slds-button_icon buttonmargin" data-type="Button"
+                                                aria-haspopup="true" aria-expanded="true" title="Show More"
+                                                onclick={openMoreMenu}>
+                                                More
+                                                <lightning-icon icon-name="utility:chevrondown"
+                                                    alternative-text="menuicon" size="xx-small"
+                                                    title="Show More"></lightning-icon>
+                                            </button>
+
+
+                                            <ul class="htmlCss-sub-menu sub-menu margin testclass" data-id="submain">
+                                                <template for:each={othessss} for:item="head">
+                                                    <li key={head.id} class="more">
+                                                        <span if:true={head.icon_visible}>
+
+                                                            <button class="moreoptioncss">{head.Name}</button>
+                                                            <lightning-icon icon-name="utility:chevronright"
+                                                                alternative-text="chevronright" size="xx-small"
+                                                                title="chevronright"></lightning-icon>
+                                                        </span>
+                                                        <span if:false={head.icon_visible}>
+
+                                                            <button data-value={head.Name} data-name={head.Name}
+                                                                data-url={head.URL__c} aria-haspopup="true"
+                                                                aria-expanded="true" title={head.Name}
+                                                                onclick={openmenu} data-type="Hyperlink"
+                                                                class="moreoptioncss">{head.Name}</button>
+                                                        </span>
+                                                        <ul if:true={head.Metadata_Objects__r} class="more-sub-menu sub-menu colorclass testclass">
+                                                            <template for:each={head.Metadata_Objects__r}
+                                                                for:item="submenu">
+                                                                <li key={submenu.id} class="moreSubName"><a
+                                                                        href={submenu.URL__c}>{submenu.Name}</a>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </template>
+
+
+
+                </div>
+                <!-- </template> -->
+
+                
+
+            </div>
+
+            <!-- <div class="searchbox">
+                <input class="nosubmit" type="search" placeholder="Search...">
+            </div> -->
+            <div class="buttonclass">
+                <div class="searchbox slds-form-element">
+
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                        <lightning-icon size="x-small"
+                            class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+                            icon-name="utility:search"></lightning-icon>
+                        <input type="text" id="text-input-id-1" placeholder="Search..." class="slds-input nosubmit" />
+                    </div>
+                </div>
+                <div class="donationbtn">
+                    <input type="button" class="donationbtninput" value="Donation" onclick={donation}>
+                </div>
+                <div class="logintxt">
+                    <input type="button" value="Logout" onclick={logout}>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

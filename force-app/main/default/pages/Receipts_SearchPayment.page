@@ -1,0 +1,50 @@
+<apex:page cache="false" >
+    <!--tabStyle="AAkPay__Payment_Txn__c"  -->
+    <style type="text/css">
+        body { padding: 0; margin: 0;}
+        #lightning{
+            min-height: 500px !important;
+        }
+        #loading{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -50px 0px 0px -50px;
+        }
+
+    </style>
+    
+    <apex:includeLightning />
+
+    <div id="lightning"></div>
+    <div id="loading">
+        <apex:image url="/resource/AAkPay__LDS0121/assets/images/spinners/slds_spinner.gif" height="50px" width="50px"/>
+    </div>
+
+    <script>
+        $Lightning.use("c:Receipts_SearchPaymentApp", function() {
+            $Lightning.createComponent(
+                "c:Receipts_SearchPaymentComponent",
+                {
+                    "cLabelGeneratePDF":"{!JSENCODE($Label.Receipt_Generate_PDF)}",
+                    "cLabelEmail":"{!JSENCODE($Label.Receipt_Receipt_Email)}",
+                    "cLabelAccount":"{!JSENCODE($Label.Receipt_Account)}",
+                    "cLabelContact":"{!JSENCODE($Label.Receipt_Contact)}",
+                    "cLabelBankDepositDateRange":"{!JSENCODE($Label.Receipt_Bank_Deposit_DateRange)}",
+                    "cLabelFromDate":"{!JSENCODE($Label.Receipt_From_Date)}",
+                    "cLabelToDate":"{!JSENCODE($Label.Receipt_To_Date)}",
+                    "cLabelViewResult":"{!JSENCODE($Label.Receipt_View_SearchResult)}",
+                    "cLabelSearchPaymentTXN":"{!JSENCODE($Label.Receipt_Search_PaymentTXN)}",
+                    "cLabelPaymentTXNFound":"{!JSENCODE($Label.Receipt_PaymentTXN_Found)}",
+                    "cLabelPrintTooMuchWarning":"{!JSENCODE($Label.Receipt_PrintTooMuchWarning)}",
+                    "cLabelRemoveRecord":"{!JSENCODE($Label.Receipt_Remove_Record)}"
+                },
+                "lightning",
+                function (cmp) {
+                    document.getElementById('loading').innerText = '';
+                }
+            );
+        });
+    </script>
+    
+</apex:page>

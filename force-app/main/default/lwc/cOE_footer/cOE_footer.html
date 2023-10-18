@@ -1,0 +1,54 @@
+<template>
+    <div class="mainclass">
+        <div class="ftr">
+            <div>
+                <div class="coeliacimag">
+                    <a href="http://www.coeliac.org.au">
+                        <img src={footerLogo} class="image">
+                    </a>
+                </div>
+                <div class="coelictxt">
+                    <p>Coeliac Australia is a</p>
+                    <p>registred charity. Donationns</p>
+                    <p>over $2 are tax deductible.</p>
+                </div>
+                <div class="donatebtn">
+                    <input type="button" value="DONATE NOW" onclick={DONATENOW}>
+                </div>
+                <div class="icons">
+                    <a href="https://www.facebook.com/CoeliacAust/"> <img src={faceBook} alt="" srcset=""></a>
+                    <a href="https://www.instagram.com/coeliacaus/"> <img src={instagram} alt="" srcset=""></a>
+                    <a href="https://au.linkedin.com/company/coeliac-australia"> <img src={linkDin} alt=""
+                            srcset=""></a>
+                </div>
+            </div>
+            <!-- <template if:true={footer1bool}> -->
+            <div class="links">
+                <template for:each={footer1} for:item="metadata">
+                    <a if:true={metadata.IsActive__c} href={metadata.URL__c} key={metadata}>
+                        <p class="news">{metadata.Name}</p>
+                    </a>
+                </template>
+            </div>
+            <!-- </template> -->
+            <!-- <template if:true={footer2bool}> -->
+            <div class="links">
+                <template for:each={footer2} for:item="metadata">
+                    <a if:true={metadata.IsActive__c} href={metadata.URL__c} key={metadata}>
+                        <p class="news">{metadata.Name}</p>
+                    </a>
+                </template>
+            </div>
+            <!-- </template> -->
+            <div class="thirdPart">
+                <div class="coelicausbtn">
+                    <input type="button" value="Coeliac Australia" onclick={CoeAus}>
+                </div>
+                <div class="glutenfreebtn">
+                    <input type="button" value="Gluten-Free Living" onclick={GFL}>
+                </div>
+                <h2>Helpline: 1300 458 836</h2>
+            </div>
+        </div>
+    </div>
+</template>
