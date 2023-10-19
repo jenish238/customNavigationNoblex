@@ -1,4 +1,4 @@
-@isTest(SeeAllData= true)
+    @isTest
 public with sharing class CustomNavigationController_Test {
     
 
@@ -49,17 +49,6 @@ public with sharing class CustomNavigationController_Test {
 
                  Profile profileId = [SELECT Id FROM Profile WHERE Name ='System Administrator' LIMIT 1];
 
-                // User testUser = new User();                   
-                // testUser.LastName = 'Bsadsaansal';
-                // testUser.Email = 'nb45sadsaSSsaa8316@gmail.com';
-                // testUser.ProfileId =  profileId.Id;
-                // testUser.Username = 'nb250asdssasa82002@gmail.com';
-                // testUser.Alias = 'nb';
-                // testUser.TimeZoneSidKey = 'GMT';
-                // testUser.LanguageLocaleKey = 'en_US';
-                // testUser.EmailEncodingKey = 'UTF-8';
-                // testUser.LocaleSidKey = 'en_US';
-                // insert testUser;
 
                 Metadata_Object__c metadata_objectObjFDD = new Metadata_Object__c(
                     Name = 'Refund Policy',
