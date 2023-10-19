@@ -15,7 +15,6 @@ export default class SideNavigationLWC extends LightningElement {
     @track selectedNav = 'Header Menu';
     isShowModal = false;
 
-    @track
     @track menuItemValues = [];
     @track maindata = [];
     @track jsonString = '';
@@ -47,6 +46,8 @@ export default class SideNavigationLWC extends LightningElement {
     @track PersonalizeName;
     @track checkwhichcompontUse;
 
+    @track actionButtonTrack = false;
+
 
     connectedCallback() {
         loadStyle(this, navigationcss);
@@ -58,33 +59,23 @@ export default class SideNavigationLWC extends LightningElement {
     addRow() {
         this.childExist = true;
         let randomId = Math.random() * 16;
-        let myNewElement = { Name: "", URL__c: "", Id: randomId, Order__c: this.childMetaRecords.length + 1, IsActive__c: false, HeaderItem__c: "" };
+        let myNewElement = { Name: "", URL__c: "", Id: randomId, Order__c: this.childMetaRecords.length + 1, IsActive__c: false, HeaderItem__c: "", buttonShow__c: true };
         this.childMetaRecords = [...this.childMetaRecords, myNewElement];
 
     }
 
     addRowmain() {
         let randomId = Math.random() * 16;
-
-        let mymainNewElement = { Name: "", URL__c: "", Id: randomId, Order__c: this.menuItemValues.length + 1, IsActive__c: false };
+        let mymainNewElement = { Name: "", URL__c: "", Id: randomId, Order__c: this.menuItemValues.length + 1, IsActive__c: false, buttonShow__c: true };
         this.menuItemValues = [...this.menuItemValues, mymainNewElement];
-    }
-
-    tableeleclick(event) {
-
     }
 
     openpopup(event) {
 
         try {
             this.isLoading = true;
-
-
             this.metaname = event.currentTarget.dataset.name;
-
             let metaid = event.currentTarget.dataset.id;
-
-
             this.menuId = metaid;
 
             getsubmenuItems({ headerId: metaid })
@@ -145,9 +136,6 @@ export default class SideNavigationLWC extends LightningElement {
                     this.dataload();
                     this.isLoading = false;
                 }
-                // if (error) {
-                //     
-                // }
             }).catch((error) => {
                 this.isLoading = false;
 
@@ -160,6 +148,12 @@ export default class SideNavigationLWC extends LightningElement {
         this.isLoading = true;
         const selected = event.detail.name;
         this.selectedNav = selected;
+
+        if (this.selectedNav != 'Header Menu') {
+            this.actionButtonTrack = true;
+        } else {
+            this.actionButtonTrack = false;
+        }
         this.recipients = [];
         this.getHeaderItem();
         this.dataload();
@@ -172,20 +166,15 @@ export default class SideNavigationLWC extends LightningElement {
 
             this.isLoading = true;
             if (this.maindata) {
-
-
                 if (this.selectedNav == 'Header Menu' && this.maindata.headerList != undefined && this.maindata.headerList != null) {
                     this.menuItemValues = this.maindata.headerList;
 
                 }
                 else if (this.selectedNav == 'Footer Resources Menu') {
-
-
                     this.menuItemValues = this.maindata.footerList;
 
                 }
                 else if (this.selectedNav == 'Footer Policy Menu') {
-
                     this.menuItemValues = this.maindata.detailList;
                 }
 
@@ -243,9 +232,14 @@ export default class SideNavigationLWC extends LightningElement {
             }
 
             this.childMetaRecords.forEach(res => {
+                console.log('res', res);
                 if (!isNaN(res.Id)) {
                     res.Id = null;
                 }
+            });
+
+            this.childMetaRecords = this.childMetaRecords.filter(res => {
+                return res.Name != '';
             });
 
             insertMenuItems({ newLst: this.childMetaRecords, menuId: this.menuId, removeMetaIds: this.deleteConatctIds })
@@ -253,7 +247,6 @@ export default class SideNavigationLWC extends LightningElement {
                     // Handle success
 
                     refreshApex(this.menuItemValues);
-                    // this.menuItemValues = result;
                     this.updateRecordView();
                     this.showToast('Success', 'Changes Saved Successfully', 'Success', 'dismissable');
                     this.isLoading = false;
@@ -264,7 +257,6 @@ export default class SideNavigationLWC extends LightningElement {
                     this.showToast('Error inserting/updating records', 'Someting Went Wrong!!', 'Error', 'dismissable');
                     this.isLoading = false;
                 });
-
 
         } catch (error) {
 
@@ -280,6 +272,11 @@ export default class SideNavigationLWC extends LightningElement {
                 this.deleteConatctIds = this.deleteConatctIds.substring(1);
             }
             const newlst2 = [];
+
+            this.menuItemValues = this.menuItemValues.filter(res => {
+                return res.Name != '' // Keep elements with names different from the specified name
+            });
+
             this.menuItemValues.forEach(res => {
 
 
@@ -290,12 +287,11 @@ export default class SideNavigationLWC extends LightningElement {
 
             });
 
+
+
             insertMainMenuItems({ newLst: JSON.stringify(newlst2), menuId: '', removeMetaIds: this.deleteConatctIds, selectednav: this.selectedNav })
                 .then(result => {
                     // Handle success
-
-
-
                     refreshApex(this.menuItemValues);
                     this.showToast('Success', 'Changes Saved Successfully', 'Success', 'dismissable');
                     this.updateRecordView();
@@ -312,7 +308,7 @@ export default class SideNavigationLWC extends LightningElement {
 
 
         } catch (error) {
-
+            console.log('error', error);
 
             this.isLoading = false;
         }
@@ -432,13 +428,8 @@ export default class SideNavigationLWC extends LightningElement {
         searchUsersName()
             .then((data) => {
                 if (data) {
-
                     this.searchResultsProfiles = data.Profilelst;
-
                     this.searchResultsUsers = data.Userlst;
-
-
-
                 }
             }).catch((error) => {
                 this.isLoading = false;
@@ -556,10 +547,7 @@ export default class SideNavigationLWC extends LightningElement {
     }
 
     handleComboChange(event) {
-
-
         this.selectedsearchvalue = event.detail.value;
-
     }
 
 
@@ -591,21 +579,14 @@ export default class SideNavigationLWC extends LightningElement {
         getHeaderItems({ recordId: this.idOfpersvisibility })
             .then((data) => {
                 if (data) {
-
-
-
-
                     let visstr;
                     if (data.headerstr != null && data.headerstr != '' && data.headerstr != undefined && this.selectedNav == 'Header Menu') {
                         visstr = data.headerstr.split(',');
-
                     } else if (data.footerstr != null && data.footerstr != '' && data.footerstr != undefined && this.selectedNav == 'Footer Resources Menu') {
                         visstr = data.footerstr.split(',');
                     } else if (data.footerdetailstr != null && data.footerdetailstr != '' && data.footerdetailstr != undefined && this.selectedNav == 'Footer Policy Menu') {
                         visstr = data.footerdetailstr.split(',');
                     }
-
-
                     this.changeThevisi(visstr);
 
                 }
@@ -623,12 +604,9 @@ export default class SideNavigationLWC extends LightningElement {
 
         if (visstr != undefined && visstr != null && visstr != '') {
             for (let i = 0; i < visstr.length; i++) {
-
                 namelst.push(visstr[i]);
             }
         }
-
-
         this.recipients = namelst;
         this.isLoading = false;
     }

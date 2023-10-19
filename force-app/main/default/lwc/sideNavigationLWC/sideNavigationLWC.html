@@ -15,27 +15,20 @@
         </template>
     </div>
     <div class="sidebar slds-split-view_container slds-is-open" data-my-id="leftPanel" style="float: left">
-
-
         <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow"
             style="padding-right: 7px">
             <lightning-vertical-navigation selected-item={selectedNav} onselect={handleSelect}>
                 <lightning-vertical-navigation-section label="Menus">
                     <lightning-vertical-navigation-item-icon label="Header Menu" name="Header Menu"
                         icon-name="utility:clock">
-
                     </lightning-vertical-navigation-item-icon>
-
                     <lightning-vertical-navigation-item-icon label="Footer Resources Menu" name="Footer Resources Menu"
                         icon-name="utility:user">
                     </lightning-vertical-navigation-item-icon>
-
                     <lightning-vertical-navigation-item-icon label="Footer Policy Menu" name="Footer Policy Menu"
                         icon-name="utility:lock">
                     </lightning-vertical-navigation-item-icon>
-
                 </lightning-vertical-navigation-section>
-
             </lightning-vertical-navigation>
         </article>
     </div>
@@ -100,9 +93,6 @@
                                         </div>
                                     </template>
                                 </div>
-
-
-
                                 <div class="slds-form-element slds-m-top_medium">
                                     <label class="slds-form-element__label label" style="color:#b51702;">
                                         <strong>Menus visible for below profile and username</strong>
@@ -150,14 +140,7 @@
             <tr class="slds-text-title_caps">
                 <th scope="col"></th>
                 <th scope="col">Name</th>
-
-
                 <th scope="col">URL</th>
-
-
-                <!-- <th scope="col">Order</th> -->
-
-
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
@@ -168,14 +151,11 @@
 
                 <tr key={menuvalue.value} class="subtabletd" draggable="true" ondrop={Drop} ondragstart={DragStart}
                     ondragover={DragOver} title={index} data-id={menuvalue.Id} data-name="parents">
-
                     <td class="daDIcon">
                         <lightning-button-icon icon-name="utility:rows" data-id={menuvalue.Id}
                             data-name={menuvalue.Name} alternative-text="drag and drop" key={menuvalue.Id}
                             title="drag and drop MenuItems"></lightning-button-icon>
                     </td>
-
-
                     <td data-label="Column 1" class="slds-p-around_small ">
                         <lightning-input type="text" value={menuvalue.Name} data-id={menuvalue.Id} data-index={index}
                             data-property="Name" onchange={handleInputChangeMain}></lightning-input>
@@ -184,22 +164,26 @@
                         <lightning-input type="text" value={menuvalue.URL__c} data-id={menuvalue.Id} data-index={index}
                             data-property="URL__c" onchange={handleInputChangeMain}></lightning-input>
                     </td>
-
                     <td data-label="Column 1" class="slds-p-around_small">
                         <lightning-input type="checkbox" checked={menuvalue.IsActive__c} data-id={menuvalue.Id}
                             data-index={index} data-property="IsActive__c"
                             onchange={handleInputChangeMain}></lightning-input>
                     </td>
+
+
                     <td data-label="Prospecting">
+                        <template if:false={menuvalue.buttonShow__c}>
+                            <lightning-button-icon icon-name="utility:people" data-id={menuvalue.Id}
+                                data-name={menuvalue.Name} data-label="parent" alternative-text="Personalize"
+                                title="Personalize" onclick={openFieldScu}></lightning-button-icon>
 
+                            <template if:false={actionButtonTrack}>
+                                <lightning-button-icon class="slds-m-left_x-small" icon-name="utility:edit"
+                                    data-id={menuvalue.Id} data-name={menuvalue.Name} alternative-text="Edit"
+                                    title="Edit MenuItems" onclick={openpopup}></lightning-button-icon>
+                            </template>
 
-
-                        <lightning-button-icon icon-name="utility:people" data-id={menuvalue.Id}
-                            data-name={menuvalue.Name} data-label="parent" alternative-text="Personalize"
-                            title="Personalize" onclick={openFieldScu}></lightning-button-icon>
-                        <lightning-button-icon class="slds-m-left_x-small" icon-name="utility:edit"
-                            data-id={menuvalue.Id} data-name={menuvalue.Name} alternative-text="Edit"
-                            title="Edit MenuItems" onclick={openpopup}></lightning-button-icon>
+                        </template>
                         <lightning-button-icon class="slds-m-left_x-small" icon-name="action:delete"
                             data-id={menuvalue.Id} alternative-text="Delete" title="Delete"
                             onclick={handleMainDeleteAction}>
@@ -224,18 +208,15 @@
 </lightning-card>
 <article class="slds-grid slds-grid_vertical slds-grow slds-scrollable_none slds-m-top_x-small slds-m-bottom_x-large">
     <div class=" slds-grid slds-grid_vertical slds-scrollable_y">
-
     </div>
 </article>
 </div>
 
 <template if:true={isShowModal}>
-
     <!--
             I Used SLDS for this code
             Here is link https://www.lightningdesignsystem.com/components/modals/
         -->
-
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open menusection">
         <div class="slds-modal__container">
@@ -252,11 +233,8 @@
                     {metaname}</h2>
             </header>
 
-
-
             <!-- modal body start -->
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-
                 <div>
                     <div class="slds-p-around_medium tablediv">
                         <template if:true={childExist}>
@@ -265,14 +243,7 @@
                                     <tr class="slds-text-title_caps">
                                         <th scope="col"></th>
                                         <th scope="col">Name</th>
-
-
                                         <th scope="col">URL</th>
-
-
-                                        <!-- <th scope="col">Order</th> -->
-
-
                                         <th scope="col">Status</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -282,16 +253,12 @@
                                         <tr key={childvalue.value} class="subtabletd" draggable="true" ondrop={Drop}
                                             ondragstart={DragStart} ondragover={DragOver} title={index}
                                             data-id={childvalue.Id} data-name="childs">
-
-
                                             <td class="daDIcon">
                                                 <lightning-button-icon icon-name="utility:rows" data-id={childvalue.Id}
                                                     data-name={childvalue.Name} alternative-text="drag and drop"
                                                     key={childvalue.Id}
                                                     title="drag and drop MenuItems"></lightning-button-icon>
                                             </td>
-
-
                                             <td data-label="Column 1" class="slds-p-around_small ">
                                                 <lightning-input type="text" value={childvalue.Name}
                                                     data-id={childvalue.Id} data-index={index} data-property="Name"
@@ -302,7 +269,6 @@
                                                     data-id={childvalue.Id} data-index={index} data-property="URL__c"
                                                     onchange={handleInputChange}></lightning-input>
                                             </td>
-
                                             <td data-label="Column 1" class="slds-p-around_small">
                                                 <lightning-input type="checkbox" checked={childvalue.IsActive__c}
                                                     data-id={childvalue.Id} data-index={index}
@@ -310,40 +276,35 @@
                                                     onchange={handleInputChange}></lightning-input>
                                             </td>
                                             <td data-label="Prospecting">
-
-                                                <lightning-button-icon icon-name="utility:people"
-                                                    data-id={childvalue.Id} data-name={childvalue.Name}
-                                                    data-label="child" alternative-text="Personalize"
-                                                    title="Personalize" onclick={openFieldScu}></lightning-button-icon>
-
-
+                                                <template if:false={childvalue.buttonShow__c}>
+                                                    <lightning-button-icon icon-name="utility:people"
+                                                        data-id={childvalue.Id} data-name={childvalue.Name}
+                                                        data-label="child" alternative-text="Personalize"
+                                                        title="Personalize"
+                                                        onclick={openFieldScu}></lightning-button-icon>
+                                                </template>
                                                 <lightning-button-icon class="slds-m-left_x-small"
                                                     icon-name="action:delete" data-id={childvalue.Id}
                                                     alternative-text="Delete" title="Delete"
                                                     onclick={handleDeleteAction}></lightning-button-icon>
                                             </td>
-
                                         </tr>
                                     </template>
-
                                     <!-- <div class="slds-m-around_medium"> -->
                                 </tbody>
                             </table>
                         </template>
                         <lightning-button class="slds-p-around_medium addrowbutton" label="Add MenuItem" slot="actions"
                             icon-name="utility:add" onclick={addRow}></lightning-button>
-
                     </div>
 
                 </div>
             </div>
-
             <!-- modal footer start-->
             <footer class="slds-modal__footer">
                 <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
                 <button class="slds-button slds-button_brand" onclick={saveData}>Save</button>
             </footer>
-
         </div>
     </section>
     <div class="slds-backdrop slds-backdrop_open"></div>

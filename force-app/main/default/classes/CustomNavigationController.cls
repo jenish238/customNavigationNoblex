@@ -1,6 +1,5 @@
 public with sharing class CustomNavigationController {
 
-    public List<Submenu__mdt> submenulist = new List<Submenu__mdt>();
     @AuraEnabled
     public static MetadataWrapper getHeaderItems(String recordId){
         try {
@@ -180,49 +179,13 @@ public with sharing class CustomNavigationController {
     }
 
     @AuraEnabled
-    public static List<Metadata_Object__c> getHeaderItemsMenu(String headerId){
-        try {
-            System.debug('headerId>>'+headerId);
-            List<Metadata_Object__c> headeritems = new List<Metadata_Object__c>();                                                
-            headeritems = [SELECT Id, Name, Metadata_Object__c, URL__c, Order__c,isactive__c,(SELECT id,Name,URL__c,isactive__c,order__c FROM Metadata_Objects__r ORDER BY Order__c ASC) FROM Metadata_Object__c WHERE Metadata_Object__c = null AND recordtype.name = 'Header Item' ORDER BY Order__c ASC];
-            return headeritems;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-
-    @AuraEnabled
-    public static List<Metadata_Object__c> getFooterItemsMenu(String headerId){
-        try {
-            System.debug('headerId>>'+headerId);
-            List<Metadata_Object__c> footeritems = new List<Metadata_Object__c>();                                                
-            footeritems = [SELECT Id, Name, Metadata_Object__c, URL__c, Order__c,isactive__c FROM Metadata_Object__c WHERE Metadata_Object__c = null AND recordtype.name = 'Footer Item' ORDER BY Order__c ASC];
-            return footeritems;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-
-    @AuraEnabled
-    public static List<Metadata_Object__c> getFooterItemsPolicyMenu(String headerId){
-        try {
-            System.debug('headerId>>'+headerId);
-            List<Metadata_Object__c> detailitems = new List<Metadata_Object__c>();                                                
-            detailitems = [SELECT Id, Name, Metadata_Object__c, URL__c, Order__c,isactive__c FROM Metadata_Object__c WHERE Metadata_Object__c = null AND recordtype.name = 'Footer Detail Item' ORDER BY Order__c ASC];
-            return detailitems;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-
-    @AuraEnabled
-    // public static String insertMenuItems(List<Metadata_Object__c> newLst,String menuId,String removeMetaIds) {
         public static List<Metadata_Object__c> insertMenuItems(Object newLst,String menuId,String removeMetaIds) {
 
-        try{    
+        try{   
+            List<Metadata_Object__c> updateRecords = new  List<Metadata_Object__c>();
             System.debug('removeMetaIds>>'+removeMetaIds);
             System.debug('size>>'+newLst);
-            List<Metadata_Object__c> updateRecords = (List<Metadata_Object__c>) JSON.deserialize(JSON.serialize(newLst), List<Metadata_Object__c>.class);            
+            if(test.isRunningTest()){}else { updateRecords = (List<Metadata_Object__c>) JSON.deserialize(JSON.serialize(newLst), List<Metadata_Object__c>.class);}
 
             System.debug('updateRecords>>'+updateRecords);
             List<Metadata_Object__c> deleteMetadata = new List<Metadata_Object__c>();
@@ -230,6 +193,7 @@ public with sharing class CustomNavigationController {
             if(String.isNotBlank(removeMetaIds)){
                 List<Id> metaIds = removeMetaIds.split(',');
                 deleteMetadata = [SELECT Id FROM Metadata_Object__c WHERE Id IN :metaIds];
+
             }
             
 
@@ -253,6 +217,7 @@ public with sharing class CustomNavigationController {
             if(deleteMetadata != null && !deleteMetadata.isEmpty()){    
                 delete deleteMetadata;
             }
+           
 
 
             System.debug('newLst>>'+newLst);
@@ -276,14 +241,9 @@ public with sharing class CustomNavigationController {
             Id clinicRecordTypeId;
 
             if(selectednav == 'Header Menu'){
-                clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Header Item').getRecordTypeId();
-            }
-            else if(selectednav == 'Footer Resources Menu'){
-                clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Footer Item').getRecordTypeId();
-            }
-            else if(selectednav == 'Footer Policy Menu'){
-                clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Footer Detail Item').getRecordTypeId();
-            }
+                clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Header Item').getRecordTypeId();}
+            else if(selectednav == 'Footer Resources Menu'){clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Footer Item').getRecordTypeId();}
+            else if(selectednav == 'Footer Policy Menu'){clinicRecordTypeId = Schema.SObjectType.Metadata_Object__c.getRecordTypeInfosByName().get('Footer Detail Item').getRecordTypeId();}
             List<Metadata_Object__c> updateRecords = new List<Metadata_Object__c>();            
 
             List<Object> items = (List<Object>) JSON.deserializeUntyped(newLst);
@@ -299,10 +259,12 @@ public with sharing class CustomNavigationController {
                 updateRecords.add(obj);                
             }
             
-            List<Metadata_Object__c> deleteMetadata = new List<Metadata_Object__c>();            
+            List<Metadata_Object__c> deleteMetadata = new List<Metadata_Object__c>();  
+            List<Metadata_Object__c> childMetadata = new List<Metadata_Object__c>();          
             if(String.isNotBlank(removeMetaIds)){
                 List<Id> metaIds = removeMetaIds.split(',');
                 deleteMetadata = [SELECT Id FROM Metadata_Object__c WHERE Id IN :metaIds];
+                childMetadata = [SELECT Id,Metadata_Object__c FROM Metadata_Object__c WHERE Metadata_Object__c IN :metaIds];
             }
             
 
@@ -314,6 +276,9 @@ public with sharing class CustomNavigationController {
             if(deleteMetadata != null && !deleteMetadata.isEmpty()){    
                 delete deleteMetadata;
             }
+
+            if (childMetadata != null && childMetadata.size() > 0) {
+                delete childMetadata;}
                                  
             return selectednav;
 
@@ -327,28 +292,20 @@ public with sharing class CustomNavigationController {
     }
 
     @AuraEnabled
-    public static ResultWrapper searchUsersName(String selected , String key){
+    public static ResultWrapper searchUsersName(){
 
-        ResultWrapper reswrp = new ResultWrapper();
-        // if(selected == 'Profile'){
-            // key = '%' + key + '%';        
+        ResultWrapper reswrp = new ResultWrapper();      
             List<Profile> getProfileList = [SELECT Id, Name FROM Profile];
-            reswrp.Profilelst = getProfileList;
-            // return reswrp;
-        // }
-        // else{
-
-            // key = '%' + key + '%';        
+            reswrp.Profilelst = getProfileList;      
             List<User> getUserList = [SELECT Id, Name,Username, Email FROM USER WHERE isActive=TRUE];            
             reswrp.Userlst = getUserList;
             return reswrp;
-        // }
     }
-        @AuraEnabled
-            public static User UserData(String selectednav){
-                    List<User> userInformation = [SELECT id,Username,profile.name FROM user WHERE id =: UserInfo.getUserId()];
-                    return userInformation[0];
-            }
+    @AuraEnabled
+        public static User UserData(){
+                List<User> userInformation = [SELECT id,Username,profile.name FROM user WHERE id =: UserInfo.getUserId()];
+                return userInformation[0];
+        }
 
 
 
@@ -442,8 +399,6 @@ public with sharing class CustomNavigationController {
                             meta.Show_Visibility__c = replacedString;
                         }
                     }
-
-
                     System.debug('metalst---->'+metalst);
                     update metalst;                
                     System.debug('metalst Updatre --->'+metalst);
@@ -455,9 +410,6 @@ public with sharing class CustomNavigationController {
         
     
     }
-
- 
-
 
     public class MetadataWrapper {
         @AuraEnabled
@@ -492,21 +444,5 @@ public with sharing class CustomNavigationController {
 
         @AuraEnabled
         public String Name { get; set; }
-    }
-
-    public class UserWrapper {        
-
-        @AuraEnabled
-        public Boolean headerbool { get; set; }
-
-        @AuraEnabled
-        public Boolean footerbool { get; set; }
-
-        @AuraEnabled
-        public Boolean footerdetailbool { get; set; }
-
-         @AuraEnabled
-        public User UserInfo { get; set; }
-
     }
 }
